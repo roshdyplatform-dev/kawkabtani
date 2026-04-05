@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>كوكب تاني | عرش الذهب الأسطوري</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      overflow: hidden;
+      font-family: 'Tajawal', sans-serif;
+      background-color: #02010a;
+    }
+    /* الإطار الذهبي المائل في الأسفل - بدون يافطة (شفاف بالكامل تقريباً) */
+    .golden-frame {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 90%;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.3); /* شفاف جداً، لا يحجب الكوكب */
+      border: 8px solid;
+      border-image: linear-gradient(135deg, #b8860b, #d4af37, #ffd700, #e6c200, #b8860b) 1;
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.1);
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+      z-index: 30;
+      pointer-events: none;
+      animation: frameBreathing 3s ease-in-out infinite;
+      backdrop-filter: blur(2px); /* خفيف جداً، لا يؤثر على وضوح الكوكب */
+    }
+    @keyframes frameBreathing {
+      0% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3), inset 0 0 10px rgba(212, 175, 55, 0.05); border-image: linear-gradient(135deg, #b8860b, #d4af37, #ffd700, #d4af37, #b8860b) 1; }
+      50% { box-shadow: 0 0 60px rgba(255, 215, 0, 0.7), inset 0 0 30px rgba(255, 215, 0, 0.2); border-image: linear-gradient(135deg, #ffd700, #ffe066, #ffffff, #ffe066, #ffd700) 1; }
+      100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3), inset 0 0 10px rgba(212, 175, 55, 0.05); border-image: linear-gradient(135deg, #b8860b, #d4af37, #ffd700, #d4af37, #b8860b) 1; }
+    }
+    h1 {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      font-weight: 900;
+      margin: 0.2rem 0;
+      background: linear-gradient(135deg, #FFE6A3, #E6B422, #ffd700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px rgba(230,180,34,0.4);
+      line-height: 1.4;
+    }
+    .sub {
+      font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+      font-weight: bold;
+      color: #FFDEAD;
+      margin: 0.3rem 0;
+      text-shadow: 0 0 6px rgba(0,0,0,0.6);
+    }
+    .desc {
+      font-size: clamp(0.75rem, 3vw, 0.95rem);
+      line-height: 1.5;
+      margin: 0.4rem 0;
+      color: #f0f0f0;
+      text-shadow: 0 0 5px black;
+    }
+    .english {
+      font-size: clamp(0.8rem, 3.5vw, 1rem);
+      font-weight: bold;
+      color: #d4af37;
+      margin: 0.3rem 0;
+      letter-spacing: 2px;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    .btn {
+      background: linear-gradient(90deg, #d4af37, #b8860b);
+      border: none;
+      padding: 8px 24px;
+      border-radius: 40px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: bold;
+      font-size: 0.85rem;
+      color: #1f1a0c;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34, 1.3, 0.55, 1);
+      box-shadow: 0 0 20px rgba(212,175,55,0.5);
+      margin-top: 0.4rem;
+      pointer-events: auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:active {
+      transform: scale(0.92);
+      transition: transform 0.08s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease-out, height 0.3s ease-out;
+    }
+    .btn:active::after {
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+      transition: 0s;
+    }
+    .toast {
+      position: fixed;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%) scale(0.8);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      padding: 8px 20px;
+      border-radius: 40px;
+      color: #ffdf8c;
+      font-size: 0.8rem;
+      border: 1px solid #d4af37;
+      z-index: 100;
+      opacity: 0;
+      transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) scale(1); }
+    @media (max-width: 600px) {
+      .golden-frame { width: 92%; padding: 0.8rem; bottom: 3%; }
+      h1 { font-size: 1rem; }
+      .sub { font-size: 0.8rem; }
+      .desc { font-size: 0.7rem; }
+      .english { font-size: 0.75rem; }
+      .btn { padding: 5px 18px; font-size: 0.75rem; }
+      .toast { white-space: normal; width: 80%; text-align: center; bottom: 18%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- الإطار الذهبي المائل (أسفل) يحتوي النصوص -->
+  <div class="golden-frame">
+    <h1>كوكب تاني – حيث يقف العرش الذهبي الأسطوري شامخاً فوق المجرات</h1>
+    <div class="sub">رحلة الملوك عبر فضاء لا ينطفئ، والعرش الذهبي منارة المجد المنتظر</div>
+    <div class="desc">بين الشهب المتناثرة والنيازك المتأججة، يرتفع العرش الذهبي ليفتح أبوابه لكل ملك يجرؤ على الحلم، ويمنحه القوة لعبور المجرات وخلود الاسم في سجلات العظمة.</div>
+    <div class="english">ARSH AL MULOOK</div>
+    <button class="btn" id="joinBtn">ارتقِ إلى العرش الذهبي الأسطوري 🚀</button>
+  </div>
+  <div id="toastMsg" class="toast">✨ بوابتك إلى الإمبراطورية الكونية ✨</div>
+
+  <script type="importmap">
+    { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js" } }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // --- المشهد الأساسي ---
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x02010a);
+    scene.fog = new THREE.FogExp2(0x02010a, 0.00025);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0.5, 10);
+    camera.lookAt(0, 0.8, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    renderer.toneMappingExposure = 1.4;
+    document.body.appendChild(renderer.domElement);
+
+    // ========== خلفية غنية جداً ==========
+    // سدم متعددة
+    const nebulaLayers = [
+      { color: 0x2a0a4a, radius: 7.0, opacity: 0.18, side: THREE.BackSide },
+      { color: 0x4a1a6e, radius: 7.8, opacity: 0.14, side: THREE.BackSide },
+      { color: 0x6a3b8e, radius: 8.5, opacity: 0.1, side: THREE.BackSide },
+      { color: 0x8a5a3b, radius: 6.0, opacity: 0.12, side: THREE.BackSide }
+    ];
+    const nebulae = [];
+    nebulaLayers.forEach(layer => {
+      const neb = new THREE.Mesh(new THREE.SphereGeometry(layer.radius, 64, 64), new THREE.MeshBasicMaterial({ color: layer.color, transparent: true, opacity: layer.opacity, side: layer.side }));
+      scene.add(neb);
+      nebulae.push(neb);
+    });
+
+    // نجوم ملونة كثيفة (12000 نجمة)
+    const starCount = 12000;
+    const starGeo = new THREE.BufferGeometry();
+    const starPos = new Float32Array(starCount * 3);
+    const starColors = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount; i++) {
+      starPos[i*3] = (Math.random() - 0.5) * 900;
+      starPos[i*3+1] = (Math.random() - 0.5) * 700;
+      starPos[i*3+2] = (Math.random() - 0.5) * 400 - 100;
+      const t = Math.random();
+      if (t < 0.6) { starColors[i*3]=1; starColors[i*3+1]=0.9; starColors[i*3+2]=0.5; }
+      else if (t < 0.8) { starColors[i*3]=0.9; starColors[i*3+1]=0.5; starColors[i*3+2]=1; }
+      else { starColors[i*3]=0.5; starColors[i*3+1]=0.8; starColors[i*3+2]=1; }
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+    starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ size: 0.18, vertexColors: true, transparent: true, opacity: 0.9 }));
+    scene.add(stars);
+
+    // غبار كوني كثيف
+    const dustCount = 6000;
+    const dustGeo = new THREE.BufferGeometry();
+    const dustPos = new Float32Array(dustCount * 3);
+    for (let i = 0; i < dustCount; i++) {
+      dustPos[i*3] = (Math.random() - 0.5) * 280;
+      dustPos[i*3+1] = (Math.random() - 0.5) * 200;
+      dustPos[i*3+2] = (Math.random() - 0.5) * 180 - 60;
+    }
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+    const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({ color: 0xffccaa, size: 0.06, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending }));
+    scene.add(dust);
+
+    // مجرات حلزونية بعيدة (6 مجرات)
+    const galaxyColors = [0xaa88ff, 0xffaa88, 0x88ffaa, 0xff88cc, 0x88aaff, 0xffcc88];
+    const galaxies = [];
+    for (let i = 0; i < 6; i++) {
+      const galaxyGroup = new THREE.Group();
+      const core = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 24), new THREE.MeshStandardMaterial({ color: galaxyColors[i], emissive: 0x331100, emissiveIntensity: 0.6 }));
+      galaxyGroup.add(core);
+      const disc = new THREE.Mesh(new THREE.TorusGeometry(0.65, 0.06, 48, 120), new THREE.MeshStandardMaterial({ color: galaxyColors[i], emissive: 0x331100 }));
+      disc.rotation.x = Math.PI / 2;
+      galaxyGroup.add(disc);
+      galaxyGroup.position.set((Math.random() - 0.5) * 35, (Math.random() - 0.5) * 25, (Math.random() - 0.5) * 50 - 80);
+      galaxyGroup.userData = { speed: 0.001 + Math.random() * 0.002 };
+      scene.add(galaxyGroup);
+      galaxies.push(galaxyGroup);
+    }
+
+    // كواكب بعيدة متوسطة الحجم (7 كواكب)
+    const distantPlanets = [];
+    const planetColors = [0xcc8866, 0x6688cc, 0xaa66cc, 0x66cc88, 0xccaa66, 0xcc66aa, 0x88aacc];
+    for (let i = 0; i < 7; i++) {
+      const pGeo = new THREE.SphereGeometry(0.4 + Math.random() * 0.25, 64, 64);
+      const pMat = new THREE.MeshStandardMaterial({ color: planetColors[i % planetColors.length], metalness: 0.4, roughness: 0.7 });
+      const planetDist = new THREE.Mesh(pGeo, pMat);
+      planetDist.position.set((Math.random() - 0.5) * 30, (Math.random() - 0.5) * 22, (Math.random() - 0.5) * 50 - 70);
+      planetDist.userData = { speed: 0.0005 + Math.random() * 0.001, axis: new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize() };
+      scene.add(planetDist);
+      distantPlanets.push(planetDist);
+    }
+
+    // ========== الكوكب الرئيسي (في الأعلى، y = 0.9) ==========
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 1024;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#b87c2e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < 800; i++) {
+      ctx.beginPath();
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const rad = Math.random() * 15 + 4;
+      ctx.arc(x, y, rad, 0, Math.PI * 2);
+      ctx.fillStyle = `hsl(45, 85%, 58%)`;
+      ctx.fill();
+      if (Math.random() > 0.7) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + (Math.random() - 0.5) * 70, y + (Math.random() - 0.5) * 70);
+        ctx.strokeStyle = '#ffcc77';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+      }
+    }
+    for (let i = 0; i < 3000; i++) {
+      ctx.fillStyle = `rgba(255, 220, 100, ${Math.random() * 0.9})`;
+      ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 2.5, 2.5);
+    }
+    const planetTexture = new THREE.CanvasTexture(canvas);
+    const planetMat = new THREE.MeshStandardMaterial({
+      map: planetTexture,
+      metalness: 0.92,
+      roughness: 0.22,
+      emissive: 0x442200,
+      emissiveIntensity: 0.5
+    });
+    const planet = new THREE.Mesh(new THREE.SphereGeometry(1.55, 128, 128), planetMat);
+    planet.position.y = 0.9;  // رفع الكوكب قليلاً إلى الأعلى
+    scene.add(planet);
+
+    // ========== الإطار الكوني (حلقتان ذهبيتان عريضتان) ==========
+    const cosmicRing1 = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.12, 128, 400), new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.95, roughness: 0.25, emissive: 0x552200, emissiveIntensity: 0.7 }));
+    cosmicRing1.rotation.x = Math.PI / 2.2;
+    cosmicRing1.rotation.z = 0.3;
+    scene.add(cosmicRing1);
+    
+    const cosmicRing2 = new THREE.Mesh(new THREE.TorusGeometry(2.25, 0.08, 128, 400), new THREE.MeshStandardMaterial({ color: 0xffcc66, metalness: 0.9, emissive: 0x442200, emissiveIntensity: 0.5 }));
+    cosmicRing2.rotation.x = Math.PI / 2.3;
+    cosmicRing2.rotation.z = -0.2;
+    scene.add(cosmicRing2);
+
+    // ========== شهب بذيول (160 شهاباً) ==========
+    const meteorCount = 160;
+    const meteors = [];
+    for (let i = 0; i < meteorCount; i++) {
+      const meteor = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.32, 6), new THREE.MeshStandardMaterial({ color: 0xffcc77, emissive: 0xff6600, emissiveIntensity: 0.9 }));
+      meteor.userData = {
+        pos: new THREE.Vector3((Math.random() - 0.5) * 80, (Math.random() - 0.5) * 60, (Math.random() - 0.5) * 80 - 30),
+        dir: new THREE.Vector3((Math.random() - 0.5) * 0.2, (Math.random() - 0.5) * 0.15, (Math.random() - 0.5) * 0.25).normalize(),
+        speed: 0.22 + Math.random() * 0.35
+      };
+      meteor.position.copy(meteor.userData.pos);
+      scene.add(meteor);
+      meteors.push(meteor);
+    }
+
+    // ========== نيازك صخرية (80 نيزكاً) ==========
+    const rockCount = 80;
+    const rocks = [];
+    for (let i = 0; i < rockCount; i++) {
+      const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.13), new THREE.MeshStandardMaterial({ color: 0xc98a3a, metalness: 0.4, roughness: 0.8, emissive: 0x331100 }));
+      rock.userData = {
+        pos: new THREE.Vector3((Math.random() - 0.5) * 90, (Math.random() - 0.5) * 65, (Math.random() - 0.5) * 85 - 35),
+        dir: new THREE.Vector3((Math.random() - 0.5) * 0.12, (Math.random() - 0.5) * 0.09, (Math.random() - 0.5) * 0.15).normalize(),
+        speed: 0.1 + Math.random() * 0.18
+      };
+      rock.position.copy(rock.userData.pos);
+      scene.add(rock);
+      rocks.push(rock);
+    }
+
+    // ========== سفن فضائية (8 سفن) ==========
+    const ships = [];
+    for (let i = 0; i < 8; i++) {
+      const group = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.18, 0.55), new THREE.MeshStandardMaterial({ color: 0xddbb55, metalness: 0.85 }));
+      group.add(body);
+      const wingL = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.07, 0.22), new THREE.MeshStandardMaterial({ color: 0xccaa55 }));
+      wingL.position.set(-0.45, 0, 0);
+      const wingR = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.07, 0.22), new THREE.MeshStandardMaterial({ color: 0xccaa55 }));
+      wingR.position.set(0.45, 0, 0);
+      group.add(wingL, wingR);
+      const engine = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.38, 8), new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff4411, emissiveIntensity: 0.8 }));
+      engine.position.z = -0.4;
+      group.add(engine);
+      group.userData = { angle: Math.random() * Math.PI * 2, radius: 6 + Math.random() * 3, height: (Math.random() - 0.5) * 3.5, speed: 0.004 + Math.random() * 0.009 };
+      scene.add(group);
+      ships.push(group);
+    }
+
+    // ========== إضاءة نابضة غنية ==========
+    const ambient = new THREE.AmbientLight(0x331144);
+    scene.add(ambient);
+    const mainLight = new THREE.DirectionalLight(0xffcc99, 1.3);
+    mainLight.position.set(3, 5, 4);
+    scene.add(mainLight);
+    const goldLight = new THREE.PointLight(0xffaa66, 1.0);
+    goldLight.position.set(1.8, 1.5, 3);
+    scene.add(goldLight);
+    const purpleLight = new THREE.PointLight(0xaa66ff, 0.9);
+    purpleLight.position.set(-1.5, 1, -4.5);
+    scene.add(purpleLight);
+    const backLight = new THREE.PointLight(0xff8844, 0.7);
+    backLight.position.set(0, 1.2, -7);
+    scene.add(backLight);
+
+    let time = 0;
+
+    // دوائر الحركة
+    function animateMeteorsRocks() {
+      meteors.forEach(m => {
+        m.position.x += m.userData.dir.x * m.userData.speed;
+        m.position.y += m.userData.dir.y * m.userData.speed;
+        m.position.z += m.userData.dir.z * m.userData.speed;
+        if (Math.abs(m.position.x) > 100 || Math.abs(m.position.y) > 70 || Math.abs(m.position.z) > 90) {
+          m.position.set((Math.random() - 0.5) * 80, (Math.random() - 0.5) * 60, (Math.random() - 0.5) * 80 - 30);
+          m.userData.dir = new THREE.Vector3((Math.random() - 0.5) * 0.22, (Math.random() - 0.5) * 0.16, (Math.random() - 0.5) * 0.27).normalize();
+        }
+        m.rotation.x += 0.18;
+        m.rotation.z += 0.14;
+      });
+      rocks.forEach(r => {
+        r.position.x += r.userData.dir.x * r.userData.speed;
+        r.position.y += r.userData.dir.y * r.userData.speed;
+        r.position.z += r.userData.dir.z * r.userData.speed;
+        if (Math.abs(r.position.x) > 100 || Math.abs(r.position.y) > 75) {
+          r.position.set((Math.random() - 0.5) * 90, (Math.random() - 0.5) * 65, (Math.random() - 0.5) * 85 - 35);
+          r.userData.dir = new THREE.Vector3((Math.random() - 0.5) * 0.14, (Math.random() - 0.5) * 0.11, (Math.random() - 0.5) * 0.17).normalize();
+        }
+        r.rotation.x += 0.07;
+        r.rotation.y += 0.08;
+      });
+    }
+
+    function animateShips() {
+      ships.forEach((ship, idx) => {
+        ship.userData.angle += ship.userData.speed;
+        const x = Math.cos(ship.userData.angle) * ship.userData.radius;
+        const z = Math.sin(ship.userData.angle) * ship.userData.radius;
+        const y = ship.userData.height + Math.sin(time * 0.9 + idx) * 0.4;
+        ship.position.set(x, y, z);
+        ship.lookAt(x + 0.3, y, z + 0.3);
+      });
+    }
+
+    function animateBackground() {
+      stars.rotation.y += 0.00015;
+      dust.rotation.y += 0.0004;
+      nebulae.forEach(neb => { neb.rotation.y += 0.0001; neb.rotation.x += 0.00005; });
+      galaxies.forEach(gal => { gal.rotation.y += gal.userData.speed; });
+      distantPlanets.forEach(p => { p.rotation.y += 0.002; });
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.016;
+
+      planet.rotation.y += 0.0018;
+      cosmicRing1.rotation.z += 0.0025;
+      cosmicRing2.rotation.z -= 0.002;
+      
+      goldLight.intensity = 0.8 + Math.sin(time * 3.2) * 0.5;
+      purpleLight.intensity = 0.7 + Math.sin(time * 2.5) * 0.45;
+      backLight.intensity = 0.6 + Math.sin(time * 2) * 0.4;
+
+      camera.position.x += (0 - camera.position.x) * 0.003;
+      camera.lookAt(planet.position);
+
+      animateMeteorsRocks();
+      animateShips();
+      animateBackground();
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const btn = document.getElementById('joinBtn');
+    const toast = document.getElementById('toastMsg');
+    btn.addEventListener('click', () => {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+      goldLight.intensity = 1.6;
+      setTimeout(() => goldLight.intensity = 0.8, 400);
+    });
+  </script>
+</body>
+  </html>
